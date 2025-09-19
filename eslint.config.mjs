@@ -32,7 +32,6 @@ const eslintConfig = [
       'react/jsx-indent-props': ['error', 2],
 
       // General formatting
-      'max-len': ['error', { code: 80, ignoreUrls: true }],
       'object-curly-spacing': ['error', 'always'],
     },
   },
