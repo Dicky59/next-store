@@ -4,6 +4,6 @@ import { insertProductSchema } from '../lib/validators'
 // Type for inserting products
 export type Product = z.infer<typeof insertProductSchema> & {
   id: string
-  rating: number
+  rating: string // Decimal from Prisma becomes string when serialized
   createdAt: Date
 }
