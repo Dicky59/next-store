@@ -3,7 +3,13 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import { useState } from 'react'
 
-const ProductImages = ({ images }: { images: string[] }) => {
+const ProductImages = ({
+  images,
+  priorityMain = false,
+}: {
+  images: string[]
+  priorityMain?: boolean
+}) => {
   const [current, setCurrent] = useState(0)
 
   return (
@@ -13,6 +19,8 @@ const ProductImages = ({ images }: { images: string[] }) => {
         alt="product image"
         width={1000}
         height={1000}
+        priority={priorityMain}
+        sizes="(min-width: 768px) 40vw, 100vw"
         className="min-h-[300px] object-cover object-center"
       />
       <div className="flex">
