@@ -50,7 +50,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                   <TableRow key={item.slug}>
                     <TableCell>
                       <Link
-                        href={`/product/${item.slug}`}
+                        href={`/product/€{item.slug}`}
                         className="flex items-center"
                       >
                         <Image
@@ -114,7 +114,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                       </Button>
                     </TableCell>
                     <TableCell className="text-right">
-                      ${item.price}
+                      €{item.price}
                     </TableCell>
                   </TableRow>
                 ))}
