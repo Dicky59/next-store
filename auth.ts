@@ -110,9 +110,6 @@ export const config = {
       }
       return token
     },
-    authorized() {
-      return true
-    },
   },
 } satisfies NextAuthConfig
 
