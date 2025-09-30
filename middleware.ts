@@ -1,11 +1,11 @@
-import { auth } from '@/auth'
-import { NextResponse } from 'next/server'
+import { getToken } from 'next-auth/jwt'
+import { NextRequest, NextResponse } from 'next/server'
 
-export default auth(req => {
-  const { auth, nextUrl } = req
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
 
   // Check for session cart cookie
-  if (!req.cookies.get('sessionCartId')) {
+  if (!request.cookies.get('sessionCartId')) {
     // Generate new session cart id cookie
     const sessionCartId = crypto.randomUUID()
 
@@ -27,13 +27,24 @@ export default auth(req => {
     /\/admin/,
   ]
 
-  // If user is not authenticated and trying to access protected routes
-  if (!auth && protectedPaths.some(path => path.test(nextUrl.pathname))) {
-    return NextResponse.redirect(new URL('/sign-in', nextUrl))
+  // Check if the current path is protected
+  const isProtectedPath = protectedPaths.some(path => path.test(pathname))
+
+  if (isProtectedPath) {
+    // Get the JWT token to check authentication
+    const token = await getToken({
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET,
+    })
+
+    // If no token (user not authenticated), redirect to sign-in
+    if (!token) {
+      return NextResponse.redirect(new URL('/sign-in', request.url))
+    }
   }
 
   return NextResponse.next()
-})
+}
 
 export const config = {
   matcher: [
