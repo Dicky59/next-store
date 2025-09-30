@@ -31,15 +31,38 @@ export async function middleware(request: NextRequest) {
   const isProtectedPath = protectedPaths.some(path => path.test(pathname))
 
   if (isProtectedPath) {
-    // Get the JWT token to check authentication
-    const token = await getToken({
-      req: request,
-      secret: process.env.NEXTAUTH_SECRET,
-    })
+    // Check for NextAuth session cookie
+    const sessionCookie = request.cookies.get(
+      process.env.NODE_ENV === 'production'
+        ? '__Secure-next-auth.session-token'
+        : 'next-auth.session-token'
+    )
 
-    // If no token (user not authenticated), redirect to sign-in
-    if (!token) {
-      return NextResponse.redirect(new URL('/sign-in', request.url))
+    // If no session cookie (user not authenticated), redirect to sign-in
+    if (!sessionCookie) {
+      const signInUrl = new URL('/sign-in', request.url)
+      signInUrl.searchParams.set('callbackUrl', request.url)
+      return NextResponse.redirect(signInUrl)
+    }
+
+    // Also try to get the JWT token as a backup check
+    try {
+      const token = await getToken({
+        req: request,
+        secret: process.env.NEXTAUTH_SECRET,
+      })
+
+      // If token is also null, redirect to sign-in
+      if (!token) {
+        const signInUrl = new URL('/sign-in', request.url)
+        signInUrl.searchParams.set('callbackUrl', request.url)
+        return NextResponse.redirect(signInUrl)
+      }
+    } catch {
+      // If there's an error getting the token, redirect to sign-in
+      const signInUrl = new URL('/sign-in', request.url)
+      signInUrl.searchParams.set('callbackUrl', request.url)
+      return NextResponse.redirect(signInUrl)
     }
   }
 
