@@ -37,6 +37,12 @@ export async function middleware(request: NextRequest) {
       secret: process.env.NEXTAUTH_SECRET,
     })
 
+    // Debug logging (remove after fixing)
+    console.log('Protected path:', pathname)
+    console.log('Token exists:', !!token)
+    console.log('NEXTAUTH_SECRET exists:', !!process.env.NEXTAUTH_SECRET)
+    console.log('Cookies:', request.cookies.getAll().map(c => c.name))
+
     // If no token (user not authenticated), redirect to sign-in
     if (!token) {
       const signInUrl = new URL('/sign-in', request.url)
