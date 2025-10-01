@@ -32,16 +32,23 @@ export async function middleware(request: NextRequest) {
 
   if (isProtectedPath) {
     // Get the JWT token to check authentication
+    // Note: Auth.js v5 uses __Secure- prefix in production (HTTPS)
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET,
+      secureCookie: process.env.NODE_ENV === 'production',
     })
 
     // Debug logging (remove after fixing)
     console.log('Protected path:', pathname)
     console.log('Token exists:', !!token)
+    console.log('Token data:', token)
+    console.log('NODE_ENV:', process.env.NODE_ENV)
     console.log('NEXTAUTH_SECRET exists:', !!process.env.NEXTAUTH_SECRET)
-    console.log('Cookies:', request.cookies.getAll().map(c => c.name))
+    console.log(
+      'Cookies:',
+      request.cookies.getAll().map(c => c.name)
+    )
 
     // If no token (user not authenticated), redirect to sign-in
     if (!token) {
