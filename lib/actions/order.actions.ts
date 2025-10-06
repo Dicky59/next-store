@@ -4,7 +4,6 @@ import { auth } from '@/auth'
 import { prisma } from '@/db/prisma'
 import { CartItem, PaymentResult } from '@/types'
 import { revalidatePath } from 'next/cache'
-import { isRedirectError } from 'next/dist/client/components/redirect'
 import { paypal } from '../paypal'
 import { convertToPlainObject, formatError } from '../utils'
 import { insertOrderSchema } from '../validators'
@@ -95,7 +94,16 @@ export async function createOrder() {
       redirectTo: `/order/${insertedOrderId}`,
     }
   } catch (error) {
-    if (isRedirectError(error)) throw error
+    // Re-throw redirect errors (NEXT_REDIRECT)
+    if (
+      error &&
+      typeof error === 'object' &&
+      'digest' in error &&
+      typeof error.digest === 'string' &&
+      error.digest.startsWith('NEXT_REDIRECT')
+    ) {
+      throw error
+    }
     return { success: false, message: formatError(error) }
   }
 }

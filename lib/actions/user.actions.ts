@@ -4,7 +4,6 @@ import { auth, signIn, signOut } from '@/auth'
 import { prisma } from '@/db/prisma'
 import { ShippingAddress } from '@/types'
 import { hashSync } from 'bcrypt-ts-edge'
-import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import z from 'zod'
 import { formatError } from '../utils'
 import {
@@ -29,7 +28,14 @@ export async function signInWithCredentials(
 
     return { success: true, message: 'Signed in successfully' }
   } catch (error) {
-    if (isRedirectError(error)) {
+    // Re-throw redirect errors (NEXT_REDIRECT)
+    if (
+      error &&
+      typeof error === 'object' &&
+      'digest' in error &&
+      typeof error.digest === 'string' &&
+      error.digest.startsWith('NEXT_REDIRECT')
+    ) {
       throw error
     }
     return { success: false, message: 'Invalid email or password' }
@@ -70,7 +76,14 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
 
     return { success: true, message: 'User registered successfully' }
   } catch (error) {
-    if (isRedirectError(error)) {
+    // Re-throw redirect errors (NEXT_REDIRECT)
+    if (
+      error &&
+      typeof error === 'object' &&
+      'digest' in error &&
+      typeof error.digest === 'string' &&
+      error.digest.startsWith('NEXT_REDIRECT')
+    ) {
       throw error
     }
     return { success: false, message: formatError(error) }
