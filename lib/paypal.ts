@@ -72,3 +72,4 @@ async function handleResponse(response: Response) {
 }
 
 export { generateAccessToken }
+
