@@ -1,3 +1,4 @@
+import { auth } from '@/auth'
 import { getOrderById } from '@/lib/actions/order.actions'
 import { ShippingAddress } from '@/types'
 import { Metadata } from 'next'
@@ -18,6 +19,8 @@ const OrderDetailsPage = async (props: {
   const order = await getOrderById(id)
   if (!order) notFound()
 
+  const session = await auth();
+
   return (
     <OrderDetailsTable
       order={{
@@ -25,6 +28,9 @@ const OrderDetailsPage = async (props: {
         shippingAddress: order.shippingAddress as ShippingAddress,
       }}
       paypalClientId={process.env.PAYPAL_CLIENT_ID || 'sb'}
+
+      isAdmin={session?.user?.role === 'admin' || false}
+
     />
   )
 }
