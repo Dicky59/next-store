@@ -328,7 +328,7 @@ export async function getOrderSummary() {
     productsCount,
     usersCount,
     totalSales,
-    latestOrders,
+    latestOrders: convertToPlainObject(latestOrders),
     salesData: convertToPlainObject(salesData) as salesDataType[],
   };
 }
