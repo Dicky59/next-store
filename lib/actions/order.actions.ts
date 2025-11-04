@@ -2,8 +2,8 @@
 
 import { auth } from '@/auth';
 import { prisma } from '@/db/prisma';
+import { Prisma } from '@/lib/generated/prisma';
 import { CartItem, PaymentResult } from '@/types';
-import { Prisma } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import { PAGE_SIZE } from '../constants';

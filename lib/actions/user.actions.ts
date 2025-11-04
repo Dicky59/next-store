@@ -2,8 +2,8 @@
 
 import { auth, signIn, signOut } from '@/auth'
 import { prisma } from '@/db/prisma'
+import { Prisma } from '@/lib/generated/prisma'
 import { ShippingAddress } from '@/types'
-import { Prisma } from '@prisma/client'
 import { hashSync } from 'bcrypt-ts-edge'
 import { revalidatePath } from 'next/cache'
 import z from 'zod'
