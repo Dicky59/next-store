@@ -14,6 +14,7 @@ import {
 export type Product = z.infer<typeof insertProductSchema> & {
   id: string
   rating: string // Decimal from Prisma becomes string when serialized
+  numReviews: number;
   createdAt: Date
 }
 
