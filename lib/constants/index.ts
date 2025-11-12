@@ -62,3 +62,5 @@ export const reviewFormDefaultValues = {
   userId: '',
   rating: 1,
 };
+
+export const SENDER_EMAIL = process.env.SENDER_EMAIL || 'onboarding@resend.dev'

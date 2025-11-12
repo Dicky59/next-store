@@ -2,8 +2,9 @@
 
 import { auth } from '@/auth';
 import { prisma } from '@/db/prisma';
+import { sendPurchaseReceipt } from '@/email';
 import { Prisma } from '@/lib/generated/prisma';
-import { CartItem, PaymentResult } from '@/types';
+import { CartItem, PaymentResult, ShippingAddress } from '@/types';
 import { revalidatePath } from 'next/cache';
 import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import { PAGE_SIZE } from '../constants';
@@ -258,6 +259,18 @@ export async function updateOrderToPaid({
   });
 
   if (!updatedOrder) throw new Error('Order not found');
+
+  try {
+    await sendPurchaseReceipt({
+      order: {
+        ...updatedOrder,
+        shippingAddress: updatedOrder.shippingAddress as ShippingAddress,
+        paymentResult: updatedOrder.paymentResult as PaymentResult,
+      },
+    });
+  } catch (error) {
+    console.error('Failed to send purchase receipt email', error);
+  }
 }
 
 // Get user's orders
