@@ -13,15 +13,35 @@ const Homepage = async () => {
   const featuredProducts = await getFeaturedProducts();
 
   return (
-    <>
+    <div className="text-foreground">
       {featuredProducts.length > 0 && (
-        <ProductCarousel data={featuredProducts} />
+        <section className="py-8 md:py-12">
+          <div className="container mx-auto px-5 md:px-10">
+            <ProductCarousel data={featuredProducts} />
+          </div>
+        </section>
       )}
-      <ProductList data={latestProducts} title='Newest Arrivals' limit={4} />
-      <ViewAllProductsButton />
-      <DealCountdown />
-      <IconBoxes />
-    </>
+      <section className="py-8 md:py-12">
+        <div className="container mx-auto px-5 md:px-10">
+          <ProductList data={latestProducts} title='Newest Arrivals' limit={4} />
+        </div>
+      </section>
+      <section className="py-8 md:py-12">
+        <div className="container mx-auto px-5 md:px-10">
+          <ViewAllProductsButton />
+        </div>
+      </section>
+      <section className="py-8 md:py-12">
+        <div className="container mx-auto px-5 md:px-10">
+          <DealCountdown />
+        </div>
+      </section>
+      <section className="py-8 md:py-12">
+        <div className="container mx-auto px-5 md:px-10">
+          <IconBoxes />
+        </div>
+      </section>
+    </div>
   );
 };
 

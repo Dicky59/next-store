@@ -46,43 +46,46 @@ const DealCountdown = () => {
   }, [targetDate]);
 
   return (
-    <section className='grid grid-cols-1 md:grid-cols-2 my-20'>
-      <div className='flex flex-col gap-2 justify-center'>
-        <h3 className='text-3xl font-bold'>Deal Of The Month</h3>
+    <div className='bg-card border border-border rounded-[var(--radius)] shadow-sm p-6 md:p-8'>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8'>
+        <div className='flex flex-col gap-4 justify-center'>
+          <h3 className='h3-bold'>Deal Of The Month</h3>
         <p>
           Get ready for a shopping experience like never before with our Deals
           of the Month! Every purchase comes with exclusive perks and offers,
           making this month a celebration of savvy choices and amazing deals.
           Don&apos;t miss out! 🎁🛒
         </p>
-        <ul className='grid grid-cols-4'>
-          <StatBox label='Days' value={time.days} />
-          <StatBox label='Hours' value={time.hours} />
-          <StatBox label='Minutes' value={time.minutes} />
-          <StatBox label='Seconds' value={time.seconds} />
-        </ul>
-        <div className='text-center'>
-          <Button asChild>
-            <Link href='/search'>View Products</Link>
-          </Button>
+          <ul className='grid grid-cols-4 gap-2'>
+            <StatBox label='Days' value={time.days} />
+            <StatBox label='Hours' value={time.hours} />
+            <StatBox label='Minutes' value={time.minutes} />
+            <StatBox label='Seconds' value={time.seconds} />
+          </ul>
+          <div className='text-center'>
+            <Button asChild size="lg" className="rounded-full">
+              <Link href='/search'>View Products</Link>
+            </Button>
+          </div>
+        </div>
+        <div className='flex justify-center items-center'>
+          <Image
+            src='/images/promo.jpg'
+            alt='promotion'
+            width={300}
+            height={200}
+            className='rounded-lg object-cover'
+          />
         </div>
       </div>
-      <div className='flex justify-center'>
-        <Image
-          src='/images/promo.jpg'
-          alt='promotion'
-          width={300}
-          height={200}
-        />
-      </div>
-    </section>
+    </div>
   );
 };
 
 const StatBox = ({ label, value }: { label: string; value: number }) => (
-  <li className='p-4 w-full text-center'>
-    <p className='text-3xl font-bold'>{value}</p>
-    <p>{label}</p>
+  <li className='p-4 w-full text-center bg-muted/30 rounded-md'>
+    <p className='text-3xl font-bold text-foreground'>{value}</p>
+    <p className='text-sm text-muted-foreground'>{label}</p>
   </li>
 );
 

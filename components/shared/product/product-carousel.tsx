@@ -15,7 +15,7 @@ import Link from 'next/link';
 const ProductCarousel = ({ data }: { data: Product[] }) => {
   return (
     <Carousel
-      className='w-full mb-12'
+      className='w-full rounded-3xl overflow-hidden shadow-elevated'
       opts={{
         loop: true,
       }}
@@ -38,10 +38,10 @@ const ProductCarousel = ({ data }: { data: Product[] }) => {
                   height='0'
                   width='0'
                   sizes='100vw'
-                  className='w-full h-auto'
+                  className='w-full h-auto object-cover rounded-3xl'
                 />
-                <div className='absolute inset-0 flex items-end justify-center'>
-                  <h2 className='bg-gray-900 bg-opacity-50 text-2xl font-bold px-2 text-white'>
+                <div className='absolute inset-0 flex items-end justify-center p-6'>
+                  <h2 className='h2-bold text-white text-center drop-shadow-md'>
                     {product.name}
                   </h2>
                 </div>

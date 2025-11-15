@@ -1,11 +1,39 @@
-import '@/assets/styles/globals.css'
-import { Toaster } from '@/components/ui/toaster'
-import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from '@/lib/constants'
-import type { Metadata } from 'next'
-import { ThemeProvider } from 'next-themes'
-import { Inter } from 'next/font/google'
+import "@/assets/styles/globals.css"
+import { Toaster } from "@/components/ui/toaster"
+import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "@/lib/constants"
+import type { Metadata } from "next"
+import { ThemeProvider } from "next-themes"
+import localFont from "next/font/local"
 
-const inter = Inter({ subsets: ['latin'] })
+// BDO Grotesk font configuration
+// Add your font files to app/fonts/ directory (see app/fonts/README.md for details)
+const bdoGrotesk = localFont({
+  src: [
+    {
+      path: "./fonts/BDOGrotesk-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/BDOGrotesk-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/BDOGrotesk-SemiBold.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "./fonts/BDOGrotesk-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-bdo-grotesk",
+  display: "swap",
+  fallback: ["Helvetica Neue", "Helvetica", "Arial", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+})
 
 export const metadata: Metadata = {
   title: {
@@ -18,15 +46,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} antialiased`}>
+      {/* ❌ no bg-background here, just font + min-h */}
+      <body className={bdoGrotesk.variable}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >

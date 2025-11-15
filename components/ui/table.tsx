@@ -1,3 +1,4 @@
+import { cva, type VariantProps } from 'class-variance-authority'
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
@@ -22,7 +23,7 @@ const TableHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <thead
     ref={ref}
-    className={cn('[&_tr]:border-b', className)}
+    className={cn('[&_tr]:border-b [&_tr]:border-border', className)}
     {...props}
   />
 ))
@@ -47,7 +48,7 @@ const TableFooter = React.forwardRef<
   <tfoot
     ref={ref}
     className={cn(
-      'border-t bg-muted/50 font-medium [&>tr]:last:border-b-0',
+      'border-t border-border bg-muted/50 font-medium [&>tr]:last:border-b-0',
       className
     )}
     {...props}
@@ -62,7 +63,7 @@ const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
+      'border-b border-border transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
       className
     )}
     {...props}
@@ -70,31 +71,57 @@ const TableRow = React.forwardRef<
 ))
 TableRow.displayName = 'TableRow'
 
+const tableHeadVariants = cva(
+  'text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
+  {
+    variants: {
+      size: {
+        default: 'h-10 px-2 text-sm',
+        xl: 'min-h-[48px] px-6 text-[1.125rem]',
+      },
+    },
+    defaultVariants: {
+      size: 'default',
+    },
+  }
+)
+
 const TableHead = React.forwardRef<
   HTMLTableCellElement,
-  React.ThHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => (
+  React.ThHTMLAttributes<HTMLTableCellElement> &
+    VariantProps<typeof tableHeadVariants>
+>(({ className, size, ...props }, ref) => (
   <th
     ref={ref}
-    className={cn(
-      'h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
-      className
-    )}
+    className={cn(tableHeadVariants({ size }), className)}
     {...props}
   />
 ))
 TableHead.displayName = 'TableHead'
 
+const tableCellVariants = cva(
+  'align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
+  {
+    variants: {
+      size: {
+        default: 'p-2 text-sm',
+        xl: 'min-h-[48px] px-6 py-4 text-[1.125rem]',
+      },
+    },
+    defaultVariants: {
+      size: 'default',
+    },
+  }
+)
+
 const TableCell = React.forwardRef<
   HTMLTableCellElement,
-  React.TdHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => (
+  React.TdHTMLAttributes<HTMLTableCellElement> &
+    VariantProps<typeof tableCellVariants>
+>(({ className, size, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn(
-      'p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
-      className
-    )}
+    className={cn(tableCellVariants({ size }), className)}
     {...props}
   />
 ))
@@ -120,5 +147,6 @@ export {
   TableFooter,
   TableHead,
   TableHeader,
-  TableRow,
+  TableRow
 }
+
