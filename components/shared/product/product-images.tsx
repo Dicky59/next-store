@@ -26,7 +26,7 @@ const ProductImages = ({
       <div className="flex">
         {images.map((image, index) => (
           <div
-            key={image}
+            key={`${image}-${index}`}
             onClick={() => setCurrent(index)}
             className={cn(
               'border border-border mr-2 cursor-pointer hover:border-primary transition-colors',
