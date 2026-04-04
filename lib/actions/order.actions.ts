@@ -342,7 +342,7 @@ export async function getOrderSummary() {
     usersCount,
     totalSales,
     latestOrders: convertToPlainObject(latestOrders),
-    salesData: convertToPlainObject(salesData) as salesDataType[],
+    salesData: convertToPlainObject(salesData) as salesDataType[] | unknown,
   };
 }
 // Get all orders

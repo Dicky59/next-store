@@ -152,7 +152,7 @@ const ReviewForm = ({
                         <SelectContent>
                           {Array.from({ length: 5 }).map((_, index) => (
                             <SelectItem
-                              key={index}
+                              key={index + 1}
                               value={(index + 1).toString()}
                             >
                               {index + 1}{' '}

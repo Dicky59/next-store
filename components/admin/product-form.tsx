@@ -44,7 +44,7 @@ const ProductForm = ({
     type === 'Update'
       ? zodResolver(updateProductSchema)
       : zodResolver(insertProductSchema)
-  ) as Resolver<ProductFormValues>;
+  ): Resolver<ProductFormValues> => {
 
   const form = useForm<ProductFormValues>({
     resolver,
